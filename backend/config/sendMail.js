@@ -2,10 +2,9 @@ import { createTransport } from "nodemailer"
 import dotenv from "dotenv"
 dotenv.config()
 const transporter = createTransport({
-  service: "Gmail",
+  host: "smtp.gmail.com",
   port: 587,
   secure: false,
-  requireTLS: true,
   family: 4,
   auth: {
     user: process.env.USER_EMAIL,
