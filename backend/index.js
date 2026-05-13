@@ -14,7 +14,7 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://learnova-5m0g.onrender.com",
     credentials: true
 }))
 app.use("/api/auth", authRouter)
