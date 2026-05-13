@@ -3,8 +3,9 @@ import dotenv from "dotenv"
 dotenv.config()
 const transporter = createTransport({
   service: "Gmail",
-  port: 465 ,
-  secure: true, // use STARTTLS (upgrade connection to TLS after connecting)
+  port: 587,
+  secure: false,
+  requireTLS: true,
   auth: {
     user: process.env.USER_EMAIL,
     pass: process.env.USER_PASSWORD,
