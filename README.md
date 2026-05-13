@@ -2,7 +2,7 @@
 
 Learnova is a full-stack AI-powered Learning Management System (LMS) built using the MERN stack, designed for seamless online learning with dual-role access for Students and Instructors.
 
-The platform includes secure authentication, AI-powered course search, Razorpay payment integration, media uploads, OTP-based password reset, and fully responsive dashboards for modern e-learning experiences.
+The platform includes secure authentication, course search, Razorpay payment integration, media uploads, OTP-based password reset, and fully responsive dashboards for modern e-learning experiences.
 
 ---
 
@@ -10,7 +10,6 @@ The platform includes secure authentication, AI-powered course search, Razorpay 
 
 * 🔐 JWT Authentication & Google OAuth (Firebase)
 * 👨‍🎓 Student & Instructor Role-Based Access
-* 🧠 AI-Powered Course Search using Gemini API
 * 💳 Razorpay Payment Gateway Integration
 * ☁️ Cloudinary Media Uploads
 * 📧 OTP & Password Reset via Nodemailer
@@ -42,7 +41,6 @@ The platform includes secure authentication, AI-powered course search, Razorpay 
 ### Services & Integrations
 
 * Firebase Authentication
-* Gemini API
 * Razorpay
 * Cloudinary
 * Nodemailer
@@ -80,7 +78,6 @@ CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 RAZORPAY_KEY_ID=
 RAZORPAY_KEY_SECRET=
-GEMINI_API_KEY=
 ```
 
 ### `/frontend/.env`
