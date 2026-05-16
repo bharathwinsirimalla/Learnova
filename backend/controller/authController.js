@@ -80,7 +80,11 @@ export const logout = async(req, res)=>{
 
 export const sendOTP = async (req, res) => {
     try {
-        const {email} = req.body
+        const email = req.body.email?.trim().toLowerCase()
+        if(!email || !validator.isEmail(email)){
+            return res.status(400).json({message: "Enter Valid Email Address"})
+        }
+
         const user = await User.findOne({email})
         if(!user){
             return res.status(404).json({message: "User Not Found"})
@@ -98,7 +102,8 @@ export const sendOTP = async (req, res) => {
             message: "Otp Sent Succesfully"
         })
     } catch (error) {
-        return res.status(500).json({message: `Send Otp Error ${error}`})   
+        console.error("Send OTP Error:", error)
+        return res.status(500).json({message: "Failed to send OTP. Please try again later."})   
     }
 }
 

@@ -1,20 +1,31 @@
 import { createTransport } from "nodemailer"
 import dotenv from "dotenv"
 dotenv.config()
+
+const { USER_EMAIL, USER_PASSWORD } = process.env
+
 const transporter = createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
   family: 4,
+  requireTLS: true,
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 15000,
   auth: {
-    user: process.env.USER_EMAIL,
-    pass: process.env.USER_PASSWORD,
+    user: USER_EMAIL,
+    pass: USER_PASSWORD,
   },
 });
 
 const sendMail = async (to, otp) => {
+    if (!USER_EMAIL || !USER_PASSWORD) {
+        throw new Error("Email credentials are not configured")
+    }
+
     await transporter.sendMail({
-        from: `"Learnova Support" <${process.env.USER_EMAIL}>`,
+        from: `"Learnova Support" <${USER_EMAIL}>`,
         to: to,
         subject: "Your Learnova password reset code",
         text: `Your Learnova password reset code is ${otp}. This code expires in 5 minutes. If you did not request this, you can safely ignore this email.`,
