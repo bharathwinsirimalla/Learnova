@@ -1,4 +1,4 @@
-# 🚀 Learnova — AI-Powered Learning Management System
+# 🚀 Learnova — Learning Management System
 
 Learnova is a full-stack AI-powered Learning Management System (LMS) built using the MERN stack, designed for seamless online learning with dual-role access for Students and Instructors.
 
@@ -43,7 +43,7 @@ The platform includes secure authentication, course search, Razorpay payment int
 * Firebase Authentication
 * Razorpay
 * Cloudinary
-* Nodemailer
+* BrevoAPI
 
 ---
 
@@ -71,8 +71,9 @@ npm run dev
 PORT=
 MONGODB_URL=
 JWT_SECRET=
-USER_EMAIL=
-USER_PASSWORD=
+BREVO_API_KEY=
+BREVO_SENDER_NAME=
+BREVO_SENDER_EMAIL=
 CLOUDINARY_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
@@ -85,6 +86,7 @@ RAZORPAY_KEY_SECRET=
 ```env
 VITE_FIREBASE_APIKEY=
 VITE_RAZORPAY_KEY_ID=
+VITE_BACKEND_URL=
 ```
 
 ---
@@ -162,6 +164,7 @@ http://localhost:{PORT}/api
 
 ## 🚧 Future Enhancements
 
+* AI Powered Search using GeminiAPI
 * 🎥 Live Classes
 * 📜 Certificate Generation
 * 📊 Course Analytics Dashboard
