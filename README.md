@@ -1,6 +1,6 @@
 # 🚀 Learnova — Learning Management System
 
-Learnova is a full-stack AI-powered Learning Management System (LMS) built using the MERN stack, designed for seamless online learning with dual-role access for Students and Instructors.
+Learnova is a full-stack Learning Management System (LMS) built using the MERN stack, designed for seamless online learning with dual-role access for Students and Instructors.
 
 The platform includes secure authentication, course search, Razorpay payment integration, media uploads, OTP-based password reset, and fully responsive dashboards for modern e-learning experiences.
 
