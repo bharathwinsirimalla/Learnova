@@ -1,35 +1,18 @@
-import { createTransport } from "nodemailer"
+import { Resend } from "resend"
 import dotenv from "dotenv"
-import dns from "dns"
 dotenv.config()
 
-dns.setDefaultResultOrder("ipv4first")
-
-const { USER_EMAIL, USER_PASSWORD } = process.env
-
-const transporter = createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  family: 4,
-  requireTLS: true,
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 15000,
-  auth: {
-    user: USER_EMAIL,
-    pass: USER_PASSWORD,
-  },
-});
+const { RESEND_API_KEY, RESEND_FROM_EMAIL } = process.env
+const resend = new Resend(RESEND_API_KEY)
 
 const sendMail = async (to, otp) => {
-    if (!USER_EMAIL || !USER_PASSWORD) {
-        throw new Error("Email credentials are not configured")
+    if (!RESEND_API_KEY || !RESEND_FROM_EMAIL) {
+        throw new Error("Resend email credentials are not configured")
     }
 
-    await transporter.sendMail({
-        from: `"Learnova Support" <${USER_EMAIL}>`,
-        to: to,
+    const { error } = await resend.emails.send({
+        from: RESEND_FROM_EMAIL,
+        to,
         subject: "Your Learnova password reset code",
         text: `Your Learnova password reset code is ${otp}. This code expires in 5 minutes. If you did not request this, you can safely ignore this email.`,
         html: `
@@ -66,6 +49,10 @@ const sendMail = async (to, otp) => {
             </div>
         `,
     });
+
+    if (error) {
+        throw new Error(error.message || "Resend failed to send email")
+    }
 }
 
 export default sendMail
