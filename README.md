@@ -1,61 +1,72 @@
-# 🚀 Learnova — AI-Powered Learning Management System
+# Learnova - AI-Powered Learning Management System
 
-Learnova is a full-stack AI-powered Learning Management System (LMS) built using the MERN stack, designed for seamless online learning with dual-role access for Students and Instructors.
+Learnova is a full-stack AI-powered Learning Management System built with the MERN stack. It supports student and instructor workflows, secure authentication, course management, payments, media uploads, reviews, and responsive learning dashboards.
 
-The platform includes secure authentication, course search, Razorpay payment integration, media uploads, OTP-based password reset, and fully responsive dashboards for modern e-learning experiences.
-
----
-
-## ✨ Features
-
-* 🔐 JWT Authentication & Google OAuth (Firebase)
-* 👨‍🎓 Student & Instructor Role-Based Access
-* 💳 Razorpay Payment Gateway Integration
-* ☁️ Cloudinary Media Uploads
-* 📧 OTP & Password Reset via Nodemailer
-* 📚 Course & Lecture Management
-* ⭐ Course Reviews & Ratings
-* ⚡ Redux Toolkit Global State Management
-* 📱 Fully Responsive UI with Tailwind CSS
+Gemini is integrated into course search as an optional backend feature. When `GEMINI_API_KEY` is configured, Learnova expands natural-language student searches into useful course keywords before querying published courses. When the key is not configured, search falls back to the existing database keyword search, so current deployments continue to run without changes.
 
 ---
 
-## 🛠️ Tech Stack
+## Features
+
+- JWT authentication and Google OAuth with Firebase
+- Student and instructor role-based access
+- AI-powered course search with Gemini keyword expansion
+- Voice input and read-aloud support on the course search page
+- Razorpay payment gateway integration
+- Cloudinary media uploads
+- OTP and password reset email flow
+- Course and lecture management
+- Course reviews and ratings
+- Redux Toolkit global state management
+- Responsive UI with Tailwind CSS
+
+---
+
+## Tech Stack
 
 ### Frontend
 
-* React.js
-* Redux Toolkit
-* Tailwind CSS
-* React Router DOM
-* Axios
+- React.js
+- Redux Toolkit
+- Tailwind CSS
+- React Router DOM
+- Axios
 
 ### Backend
 
-* Node.js
-* Express.js
-* MongoDB
-* Mongoose
-* JWT Authentication
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT authentication
 
-### Services & Integrations
+### Services and Integrations
 
-* Firebase Authentication
-* Razorpay
-* Cloudinary
-* Nodemailer
+- Gemini API
+- Firebase Authentication
+- Razorpay
+- Cloudinary
+- Nodemailer/Brevo email
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ```bash
 git clone https://github.com/bharathwinsirimalla/Learnova.git
+```
 
+### Backend
+
+```bash
 cd backend
 npm install
 npm run dev
+```
 
+### Frontend
+
+```bash
 cd frontend
 npm install
 npm run dev
@@ -63,7 +74,7 @@ npm run dev
 
 ---
 
-## 🔐 Environment Variables
+## Environment Variables
 
 ### `/backend/.env`
 
@@ -78,18 +89,39 @@ CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 RAZORPAY_KEY_ID=
 RAZORPAY_KEY_SECRET=
+BREVO_API_KEY=
+BREVO_SENDER_EMAIL=
+
+# Optional AI search integration.
+# If omitted, Learnova uses normal database search and deployment still works.
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-2.0-flash
 ```
 
 ### `/frontend/.env`
 
 ```env
+VITE_BACKEND_URL=
 VITE_FIREBASE_APIKEY=
 VITE_RAZORPAY_KEY_ID=
 ```
 
 ---
 
-## 📌 API Reference
+## Gemini Integration
+
+The course search endpoint uses Gemini only on the backend. The API key is never exposed to the frontend.
+
+- Endpoint: `POST /api/course/search`
+- Request body: `{ "input": "beginner frontend projects" }`
+- Behavior with Gemini: expands the search into relevant course keywords, then searches published courses.
+- Behavior without Gemini: searches published courses using the original input only.
+
+This keeps the deployment process unchanged. To enable AI search in production, add `GEMINI_API_KEY` to the backend environment variables in your hosting dashboard and redeploy the backend. No new package install is required for the Gemini integration.
+
+---
+
+## API Reference
 
 Base URL:
 
@@ -97,80 +129,72 @@ Base URL:
 http://localhost:{PORT}/api
 ```
 
-### Authentication Routes — `/api/auth`
+### Authentication Routes - `/api/auth`
 
 | Method | Endpoint         | Description           |
 | ------ | ---------------- | --------------------- |
-| POST   | `/signup`        | Register User         |
-| POST   | `/login`         | Login User            |
-| GET    | `/logout`        | Logout User           |
+| POST   | `/signup`        | Register user         |
+| POST   | `/login`         | Login user            |
+| GET    | `/logout`        | Logout user           |
 | POST   | `/sendotp`       | Send OTP              |
 | POST   | `/verifyotp`     | Verify OTP            |
-| POST   | `/resetpassword` | Reset Password        |
-| POST   | `/googleauth`    | Google Authentication |
+| POST   | `/resetpassword` | Reset password        |
+| POST   | `/googleauth`    | Google authentication |
 
----
+### Course Routes - `/api/course`
 
-### Course Routes — `/api/course`
+| Method | Endpoint                    | Auth | Description              |
+| ------ | --------------------------- | ---- | ------------------------ |
+| POST   | `/create`                   | Yes  | Create course            |
+| GET    | `/getpublished`             | No   | Get published courses    |
+| GET    | `/getcreator`               | Yes  | Get instructor courses   |
+| POST   | `/editcourse/:courseId`     | Yes  | Edit course              |
+| GET    | `/getcoursebyid/:courseId`  | Yes  | Get course by ID         |
+| GET    | `/viewcourse/:courseId`     | No   | Public course view       |
+| DELETE | `/remove/:courseId`         | Yes  | Delete course            |
+| POST   | `/createlecture/:courseId`  | Yes  | Add lecture              |
+| GET    | `/courselecture/:courseId`  | Yes  | Get course lectures      |
+| GET    | `/lecture/:lectureId`       | Yes  | Get lecture              |
+| POST   | `/editlecture/:lectureId`   | Yes  | Edit lecture             |
+| POST   | `/removelecture/:lectureId` | Yes  | Remove lecture           |
+| POST   | `/search`                   | No   | AI-powered course search |
 
-| Method | Endpoint                    | Auth | Description            |
-| ------ | --------------------------- | ---- | ---------------------- |
-| POST   | `/create`                   | ✅    | Create Course          |
-| GET    | `/getpublished`             | ❌    | Get Published Courses  |
-| GET    | `/getcreator`               | ✅    | Get Instructor Courses |
-| POST   | `/editcourse/:courseId`     | ✅    | Edit Course            |
-| GET    | `/getcoursebyid/:courseId`  | ✅    | Get Course by ID       |
-| GET    | `/viewcourse/:courseId`     | ❌    | Public Course View     |
-| DELETE | `/remove/:courseId`         | ✅    | Delete Course          |
-| POST   | `/createlecture/:courseId`  | ✅    | Add Lecture            |
-| GET    | `/courselecture/:courseId`  | ✅    | Get Course Lectures    |
-| GET    | `/lecture/:lectureId`       | ✅    | Get Lecture            |
-| POST   | `/editlecture/:lectureId`   | ✅    | Edit Lecture           |
-| POST   | `/removelecture/:lectureId` | ✅    | Remove Lecture         |
-| POST   | `/search`                   | ❌    | AI-Powered Search      |
-
----
-
-### Payment Routes — `/api/payment`
+### Payment Routes - `/api/order`
 
 | Method | Endpoint          | Description                  |
 | ------ | ----------------- | ---------------------------- |
-| POST   | `/razorpay-order` | Create Razorpay Order        |
-| POST   | `/verifypayment`  | Verify Payment & Enroll User |
+| POST   | `/razorpay-order` | Create Razorpay order        |
+| POST   | `/verifypayment`  | Verify payment and enroll    |
 
----
-
-### Review Routes — `/api/review`
+### Review Routes - `/api/review`
 
 | Method | Endpoint                | Auth | Description        |
 | ------ | ----------------------- | ---- | ------------------ |
-| POST   | `/createreview`         | ✅    | Create Review      |
-| GET    | `/getreviews/:courseId` | ❌    | Get Course Reviews |
-| GET    | `/recent`               | ❌    | Get Recent Reviews |
+| POST   | `/createreview`         | Yes  | Create review      |
+| GET    | `/getreviews/:courseId` | No   | Get course reviews |
+| GET    | `/recent`               | No   | Get recent reviews |
 
----
-
-### User Routes — `/api/user`
+### User Routes - `/api/user`
 
 | Method | Endpoint            | Auth | Description          |
 | ------ | ------------------- | ---- | -------------------- |
-| GET    | `/getcurrentuser`   | ✅    | Get Current User     |
-| GET    | `/enrolled-courses` | ✅    | Get Enrolled Courses |
-| POST   | `/profile`          | ✅    | Update Profile       |
+| GET    | `/getcurrentuser`   | Yes  | Get current user     |
+| GET    | `/enrolled-courses` | Yes  | Get enrolled courses |
+| POST   | `/profile`          | Yes  | Update profile       |
 
 ---
 
-## 🚧 Future Enhancements
+## Future Enhancements
 
-* 🎥 Live Classes
-* 📜 Certificate Generation
-* 📊 Course Analytics Dashboard
-* 🤖 Personalized AI Recommendations
-* 📈 Progress Tracking System
+- Live classes
+- Certificate generation
+- Course analytics dashboard
+- Personalized AI recommendations
+- Progress tracking system
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 GitHub: https://github.com/bharathwinsirimalla
 

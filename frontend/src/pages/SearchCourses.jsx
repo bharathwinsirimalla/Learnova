@@ -285,11 +285,11 @@ function SearchCourses() {
             Published courses
           </div>
           <h1 className="mt-3 text-3xl font-extrabold leading-tight text-white sm:text-4xl">
-            Search courses
+            AI course search
           </h1>
           <p className="mt-3 max-w-2xl text-sm font-medium leading-6 text-blue-100 sm:text-base">
-            Search published courses by title, subtitle, description, category, or level. Results
-            filter as you type.
+            Describe what you want to learn in natural language. Gemini expands your intent into
+            useful course keywords while results still filter as you type.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-stretch">
