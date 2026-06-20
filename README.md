@@ -1,6 +1,8 @@
 # Learnova - AI-Powered Learning Management System
 
-Learnova is a full-stack AI-powered Learning Management System built with the MERN stack. It supports student and instructor workflows, secure authentication, course management, payments, media uploads, reviews, and responsive learning dashboards.
+Learnova is a full-stack AI-powered Learning Management System (LMS) built using the MERN stack, designed for seamless online learning with dual-role access for Students and Instructors.
+
+The platform includes secure authentication, AI-powered course search, Razorpay payment integration, media uploads, OTP-based password reset, and fully responsive dashboards for modern e-learning experiences.
 
 Gemini is integrated into course search as an optional backend feature. When `GEMINI_API_KEY` is configured, Learnova expands natural-language student searches into useful course keywords before querying published courses. When the key is not configured, search falls back to the existing database keyword search, so current deployments continue to run without changes.
 
@@ -84,13 +86,14 @@ MONGODB_URL=
 JWT_SECRET=
 USER_EMAIL=
 USER_PASSWORD=
+BREVO_API_KEY=
+BREVO_SENDER_NAME=
+BREVO_SENDER_EMAIL=
 CLOUDINARY_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 RAZORPAY_KEY_ID=
 RAZORPAY_KEY_SECRET=
-BREVO_API_KEY=
-BREVO_SENDER_EMAIL=
 
 # Optional AI search integration.
 # If omitted, Learnova uses normal database search and deployment still works.
@@ -161,10 +164,10 @@ http://localhost:{PORT}/api
 
 ### Payment Routes - `/api/order`
 
-| Method | Endpoint          | Description                  |
-| ------ | ----------------- | ---------------------------- |
-| POST   | `/razorpay-order` | Create Razorpay order        |
-| POST   | `/verifypayment`  | Verify payment and enroll    |
+| Method | Endpoint          | Description               |
+| ------ | ----------------- | ------------------------- |
+| POST   | `/razorpay-order` | Create Razorpay order     |
+| POST   | `/verifypayment`  | Verify payment and enroll |
 
 ### Review Routes - `/api/review`
 
